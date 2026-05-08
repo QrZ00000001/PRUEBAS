@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yamiyuki Suite | Portal de Gestión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #050608;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --accent-cyan: #00f0ff;
+            --accent-purple: #7000ff;
+            --text-main: #f0f4f8;
+            --text-muted: #8b9bb0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+        .background-blobs {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(112, 0, 255, 0.05) 0%, transparent 40%);
+        }
+
+        .portal-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 60px;
+            border-radius: 40px;
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-out;
+        }
+
+        header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(90deg, #fff, var(--accent-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        header p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 50px; text-transform: uppercase; letter-spacing: 3px; font-weight: 300; }
+
+        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .portal-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 40px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .portal-btn i { font-size: 2.5rem; color: var(--accent-cyan); transition: all 0.3s; }
+        .portal-btn h2 { font-size: 1.2rem; font-weight: 600; }
+        .portal-btn span { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+        .portal-btn:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--accent-cyan);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px -10px var(--accent-cyan);
+        }
+
+        .portal-btn:hover i { transform: scale(1.1); color: #fff; }
+
+        .footer-logo { margin-top: 50px; opacity: 0.3; font-size: 0.9rem; font-weight: 300; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .button-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 2rem; }
+            .portal-card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blobs"></div>
+
+    <div class="portal-card">
+        <header>
+            <h1>Yamiyuki Suite</h1>
+            <p>Portal de Proyecto</p>
+        </header>
+
+        <div class="button-grid">
+            <a href="Cotizacion.html" class="portal-btn">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <div>
+                    <h2>Propuesta Comercial</h2>
+                    <span>Detalles del proyecto, plazos y costos.</span>
+                </div>
+            </a>
+
+            <a href="Documentacion.html" class="portal-btn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <div>
+                    <h2>Centro de Demo</h2>
+                    <span>Manual interactivo y simulador técnico.</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer-logo">
+            YAMIYUKI SOLUTIONS &copy; 2026
+        </div>
+    </div>
+</body>
+</html>
