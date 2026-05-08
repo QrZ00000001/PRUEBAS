@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Yamiyuki Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00f0ff;
+            --accent-pink: #ff0055;
+            --accent-purple: #7000ff;
+            --accent-green: #00ff88;
+            --accent-orange: #ffaa00;
+            --text-main: #f0f4f8;
+            --text-muted: #8b9bb0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; overflow-x: hidden; padding-bottom: 100px; }
+        
+        .ambient-light {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(112, 0, 255, 0.05) 0%, transparent 40%);
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent-cyan), #fff, var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
+        header p { color: var(--text-muted); font-size: 1.2rem; }
+
+        .section { margin-bottom: 100px; }
+        .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        .section-header i { font-size: 2rem; color: var(--accent-cyan); }
+        .section-header h2 { font-size: 2.2rem; font-weight: 600; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+
+        .info-card { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 30px; padding: 40px; }
+        .info-card h3 { font-size: 1.4rem; margin-bottom: 20px; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .info-card h3 i { color: var(--accent-cyan); }
+        
+        .tutorial-card { background: rgba(255,255,255,0.02); border-radius: 20px; padding: 30px; border-left: 4px solid var(--accent-cyan); }
+        .tutorial-card h4 { margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: var(--text-muted); }
+
+        .step { display: flex; gap: 20px; margin-bottom: 25px; }
+        .step-num { width: 32px; height: 32px; background: var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 600; flex-shrink: 0; color: var(--accent-cyan); }
+        .step-content p { font-size: 1rem; line-height: 1.5; color: #d1d8e0; }
+        .step-content b { color: #fff; }
+
+        .feature-tag { display: inline-block; padding: 6px 14px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 50px; color: var(--accent-cyan); font-size: 0.85rem; margin: 5px; }
+
+        .pro-tip { margin-top: 30px; padding: 20px; background: rgba(0, 255, 136, 0.05); border-radius: 15px; border: 1px dashed rgba(0, 255, 136, 0.3); display: flex; gap: 15px; align-items: center; }
+        .pro-tip i { color: var(--accent-green); font-size: 1.5rem; }
+        .pro-tip p { font-size: 0.9rem; color: #fff; }
+
+        .ai-note { margin-top: 40px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; font-family: monospace; font-size: 0.8rem; color: #6a7c92; }
+
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } header h1 { font-size: 2.5rem; } }
+
+        /* ESTILOS SIMULADOR */
+        .demo-btn { background: var(--glass-bg); border: 1px solid var(--glass-border); color: #fff; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; font-size: 0.8rem; transition: all 0.2s; text-align: center; }
+        .demo-btn:hover { background: var(--accent-cyan); color: #000; transform: scale(1.05); }
+        
+        .layer-card { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-left: 4px solid var(--accent-cyan); padding: 12px; border-radius: 10px; font-size: 11px; cursor: pointer; transition: all 0.2s; display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+        .layer-card:hover { background: rgba(255,255,255,0.1); }
+        .layer-card.inactive { opacity: 0.3; border-left-color: #555 !important; }
+        .layer-card i { width: 15px; text-align: center; }
+
+        .sim-sticker { border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; z-index: 5; }
+        .sim-mark { position: absolute; background: #fff; z-index: 1000; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .graphtec-mark { position: absolute; border-left: 2px solid #fff; border-top: 2px solid #fff; width: 15px; height: 15px; z-index: 2000; }
+        .sim-number { position: absolute; font-size: 14px; font-weight: 800; color: #fff; z-index: 6; text-shadow: 2px 2px 4px #000; }
+        
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+    <div class="container">
+        <header>
+            <h1>Yamiyuki Suite</h1>
+            <p>Ecosistema de Automatización Personal</p>
+        </header>
+
+        <!-- SECCIÓN 1: REPETIR STICKERS -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fa-solid fa-layer-group"></i>
+                <h2>1. Repetir Stickers (Montaje Pro)</h2>
+            </div>
+            <div class="grid">
+                <div class="info-card">
+                    <h3>¿Qué hace?</h3>
+                    <p class="desc" style="margin-bottom: 20px; color: var(--text-muted);">Automatiza la creación de pliegos de impresión para stickers. Es capaz de mezclar diferentes diseños en la misma hoja y calcular cuántos caben de cada uno.</p>
+                    <div>
+                        <span class="feature-tag">Soporta Máscaras</span>
+                        <span class="feature-tag">Centrado Auto</span>
+                        <span class="feature-tag">Mantiene Capas</span>
+                        <span class="feature-tag">Optimiza Rotación</span>
+                        <span class="feature-tag">Balance de Cantidades</span>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <p><b>Pro Tip:</b> No necesitas agrupar las capas de barniz y corte. El script detecta que pertenecen al mismo sticker si están solapadas.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h4>Mini Tutorial</h4>
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content"><p>Selecciona todos los elementos de tus stickers (incluyendo líneas de corte y barniz). <b>Asegúrate de que cada diseño esté separado del otro.</b></p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content"><p>Ejecuta el script. Verás una lista con los diseños detectados y sus medidas reales <b>(ignorando arte oculto por máscaras)</b>.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content"><p>Elige <b>"Equilibrar Cantidades"</b> si quieres que el script intente meter la misma cantidad de cada sticker en el pliego.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content"><p>Haz clic en <b>"Calcular"</b> para ver totales y luego en <b>"Generar Montaje"</b> para finalizar.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: NUMERACIÓN SECUENCIAL -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fa-solid fa-arrow-1-9"></i>
+                <h2>2. Numeración Secuencial Automática</h2>
+            </div>
+            <div class="grid">
+                <div class="info-card">
+                    <h3>¿Qué hace?</h3>
+                    <p class="desc" style="margin-bottom: 20px; color: var(--text-muted);">Transforma cualquier texto seleccionado en un contador inteligente. Ideal para folios, entradas o etiquetas seriadas que requieren un orden específico.</p>
+                    <div>
+                        <span class="feature-tag">Prefijos/Sufijos</span>
+                        <span class="feature-tag">Incremento Variable</span>
+                        <span class="feature-tag">Mantiene Formato</span>
+                        <span class="feature-tag">Procesamiento Masivo</span>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-font"></i>
+                        <p><b>Consejo:</b> El script mantiene la fuente, el tamaño y el color del texto original. Solo reemplaza el contenido numérico.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h4>Instrucciones</h4>
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content"><p>Crea un objeto de texto con el formato deseado (ej: "000") y selecciónalo en todos los stickers del montaje.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content"><p>Ingresa el <b>Número Inicial</b> y el <b>Incremento</b> en el panel del script.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content"><p>Pulsa <b>"Numerar"</b>. El script detectará la posición de cada texto para asignar los números en orden de lectura.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: MARCAS DE CORTE -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fa-solid fa-crop-simple"></i>
+                <h2>3. Marcas de Corte Inteligentes</h2>
+            </div>
+            <div class="grid">
+                <div class="info-card">
+                    <h3>¿Qué hace?</h3>
+                    <p class="desc" style="margin-bottom: 20px; color: var(--text-muted);">Coloca las marcas de corte tradicionales para guillotina. Su inteligencia evita que las marcas se pisen entre sí cuando los stickers están muy juntos.</p>
+                    <div>
+                        <span class="feature-tag">Limpieza Automática</span>
+                        <span class="feature-tag">Modo Sangrado</span>
+                        <span class="feature-tag">Color Registro</span>
+                        <span class="feature-tag">Ultra Preciso</span>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <p><b>Seguridad:</b> Si tus stickers están pegados uno a otro, el script solo pondrá las marcas en los bordes exteriores, dejando el centro limpio.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h4>Mini Tutorial</h4>
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content"><p>Selecciona el montaje completo de stickers que acabas de generar.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content"><p>Configura el <b>Excedente (Bleed)</b>. Si tu sticker ya tiene el fondo más grande, elige la opción <b>"Ya tiene excedente"</b>.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content"><p>Mantén activada la <b>"Limpieza inteligente"</b>. El script creará la capa <b>"MARCAS"</b> al nivel superior.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: MARCAS GRAPHTEC -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fa-solid fa-crosshairs"></i>
+                <h2>4. Registro Graphtec (Suite Pro v9.1)</h2>
+            </div>
+            <div class="grid">
+                <div class="info-card">
+                    <h3>¿Qué hace?</h3>
+                    <p class="desc" style="margin-bottom: 20px; color: var(--text-muted);">Genera las marcas de registro exactas para el plotter Graphtec. Incluye herramientas avanzadas de preparación de archivos que no tiene el plugin oficial.</p>
+                    <div>
+                        <span class="feature-tag">Paso Fijo 300mm</span>
+                        <span class="feature-tag">Auto-ajuste de Mesa</span>
+                        <span class="feature-tag">Borde de Fondo 1pt</span>
+                        <span class="feature-tag">Soporte XY (Tipo 2)</span>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p><b>Ahorra tiempo:</b> Pulsa <b>ENTER</b> nada más abrir el script para generar las marcas con la configuración por defecto. ¡Es instantáneo!</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h4>Nuevas Funciones</h4>
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content"><p><b>Auto-ajustar mesa:</b> El script redimensiona automáticamente el área de trabajo para que el plotter detecte los márgenes de seguridad correctos.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content"><p><b>Dibujar borde:</b> Crea un rectángulo de 1pt en la capa más profunda. Ideal para archivos que necesitan un fondo sólido exacto.</p></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content"><p><b>Capa Superior:</b> Las marcas se generan en una nueva capa <b>"GRAPHTEC"</b> por encima de todo el arte.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: SIMULADOR INTERACTIVO -->
+        <div class="section">
+            <div class="section-header">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h2>Demo Interactiva: Prueba la Suite</h2>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 220px 1fr 220px; gap: 20px; align-items: start;">
+                <!-- COLUMNA 1: BOTONES -->
+                <div class="info-card" style="padding: 25px; height: 100%;">
+                    <h4 style="color:var(--text-muted); margin-bottom:15px; font-size:10px; letter-spacing:1px;">ACCIONES</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="demo-btn" onclick="simStep(1)">1. Ejecutar Montaje</button>
+                        <button class="demo-btn" onclick="simStep(4)">2. Numerar Stickers</button>
+                        <button class="demo-btn" onclick="simStep(2)">3. Aplicar Marcas</button>
+                        <button class="demo-btn" onclick="simStep(3)">4. Registro Graphtec</button>
+                        <button class="demo-btn" style="margin-top: 10px; background: rgba(255,0,85,0.1); color: var(--accent-pink); border-color: var(--accent-pink);" onclick="resetSim()">Reiniciar</button>
+                    </div>
+                </div>
+
+                <!-- COLUMNA 2: LIENZO -->
+                <div class="info-card" style="background: #1a1b22; overflow: hidden; position: relative; min-height: 480px; display: flex; justify-content: center; align-items: center; padding: 0;">
+                    <div id="canvas" style="width: 320px; height: 400px; border: 1px dashed #444; position: relative; background: #25262e; transition: all 0.5s;">
+                        <div id="sticker-master" class="sim-sticker" style="width: 70px; height: 70px; position: absolute; left: 125px; top: 165px; display: flex; align-items: center; justify-content: center; transition: all 0.5s;"></div>
+                        <div id="sticker-grid" style="position: absolute; width: 100%; height: 100%;"></div>
+                        <div id="marks-layer" style="position: absolute; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 1000;"></div>
+                        <div id="graphtec-layer" style="position: absolute; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: all 0.5s; z-index: 2000;"></div>
+                    </div>
+                    <div id="sim-status" style="position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 9px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 2px;">Sistema listo</div>
+                </div>
+
+                <!-- COLUMNA 3: CAPAS DINÁMICAS -->
+                <div class="info-card" style="padding: 25px; height: 100%;">
+                    <h4 style="color:var(--text-muted); margin-bottom:15px; font-size:10px; letter-spacing:1px;">CAPAS (JERARQUÍA AI)</h4>
+                    <div id="layer-panel">
+                        <div id="layer-card-graphtec" class="layer-card active" onclick="toggleLayer('graphtec', this)" style="border-left-color: #fff; display: none; animation: popIn 0.3s forwards;">
+                            <i class="fa-solid fa-eye"></i> 🎯 REGISTRO GRAPHTEC
+                        </div>
+                        <div id="layer-card-marks" class="layer-card active" onclick="toggleLayer('marks', this)" style="border-left-color: #888; display: none; animation: popIn 0.3s forwards;">
+                            <i class="fa-solid fa-eye"></i> 🏁 MARCAS DE CORTE
+                        </div>
+                        <div class="layer-card active" onclick="toggleLayer('cut', this)" style="border-left-color: var(--accent-green);">
+                            <i class="fa-solid fa-eye"></i> ✂️ Línea de Corte
+                        </div>
+                        <div class="layer-card active" onclick="toggleLayer('varnish', this)" style="border-left-color: var(--accent-pink);">
+                            <i class="fa-solid fa-eye"></i> ✨ Barniz Sector. (50%)
+                        </div>
+                        <div class="layer-card active" onclick="toggleLayer('nums', this)" style="border-left-color: var(--accent-orange);">
+                            <i class="fa-solid fa-eye"></i> 🔢 Numeración
+                        </div>
+                        <div class="layer-card active" onclick="toggleLayer('design', this)" style="border-left-color: var(--accent-cyan);">
+                            <i class="fa-solid fa-eye"></i> 🎨 Diseño CMYK
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 8px; color: var(--text-muted); line-height: 1.4;">
+                        * El orden de las capas respeta la jerarquía real de producción en Illustrator.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="ai-note"><i class="fa-solid fa-code"></i> Technical Note: All scripts use custom `getEffectiveBounds` to resolve clipping mask inheritance.</div>
+        </footer>
+    </div>
+
+    <script>
+        let isGrid = false;
+        let layers = { design: true, varnish: true, cut: true, nums: true, marks: true, graphtec: true };
+
+        function toggleLayer(type, el) {
+            layers[type] = !layers[type];
+            el.classList.toggle('inactive');
+            el.querySelector('i').className = layers[type] ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+            updateVisuals();
+        }
+
+        function createStickerContent(num = "", size = 60) {
+            const ghostSize = size === 70 ? 25 : 20;
+            return `
+                <div class="sim-design" style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg, #00f0ff, #7000ff); position:absolute; z-index:1; display:flex; align-items:center; justify-content:center; transition:0.3s;">
+                    <i class="fa-solid fa-ghost" style="color:white; font-size:${ghostSize}px;"></i>
+                </div>
+                <div class="sim-varnish" style="width:100%; height:100%; border-radius:50%; background:rgba(255,0,85,0.5); position:absolute; z-index:2; transition:0.3s; transform: scale(1.05);"></div>
+                <div class="sim-cut" style="width:100%; height:100%; border-radius:50%; border:1px solid #00ff88; position:absolute; z-index:3; transition:0.3s; transform: scale(1.1);"></div>
+                <div class="sim-number" style="z-index:6; opacity:${num ? 1 : 0}">${num}</div>
+            `;
+        }
+
+        function updateVisuals() {
+            const stickers = document.querySelectorAll('.sim-sticker');
+            stickers.forEach(s => {
+                const design = s.querySelector('.sim-design');
+                const varnish = s.querySelector('.sim-varnish');
+                const cut = s.querySelector('.sim-cut');
+                const num = s.querySelector('.sim-number');
+                if (design) design.style.opacity = layers.design ? '1' : '0';
+                if (varnish) varnish.style.opacity = layers.varnish ? '1' : '0';
+                if (cut) cut.style.opacity = layers.cut ? '1' : '0';
+                if (num) num.style.opacity = layers.nums && num.innerText ? '1' : '0';
+            });
+            document.getElementById('marks-layer').style.opacity = layers.marks ? '1' : '0';
+            document.getElementById('graphtec-layer').style.opacity = layers.graphtec ? '1' : '0';
+        }
+
+        function simStep(step) {
+            const status = document.getElementById('sim-status');
+            const marksLayer = document.getElementById('marks-layer');
+            const graphtecLayer = document.getElementById('graphtec-layer');
+
+            if (step === 1) {
+                isGrid = true;
+                document.getElementById('sticker-master').style.display = 'none';
+                const grid = document.getElementById('sticker-grid');
+                grid.innerHTML = '';
+                for (let y = 0; y < 4; y++) {
+                    for (let x = 0; x < 3; x++) {
+                        const s = document.createElement('div');
+                        s.className = "sim-sticker";
+                        s.style = `width:50px; height:50px; position:absolute; left:${x*70 + 55}px; top:${y*70 + 60}px; animation: popIn 0.3s forwards; animation-delay: ${(x+y)*0.05}s; opacity:0;`;
+                        s.innerHTML = createStickerContent("", 50);
+                        grid.appendChild(s);
+                    }
+                }
+                updateVisuals();
+                status.innerHTML = "Montaje completado.";
+            }
+
+            if (step === 4) {
+                const stickers = document.querySelectorAll('.sim-sticker');
+                stickers.forEach((s, i) => {
+                    const n = s.querySelector('.sim-number');
+                    if (n) n.innerText = String(i + 1).padStart(3, '0');
+                });
+                updateVisuals();
+                status.innerHTML = "Numeración aplicada con éxito.";
+            }
+
+            if (step === 2) {
+                marksLayer.innerHTML = '';
+                const marks = isGrid ? [
+                    {x: 55, y: 60, hx:-15, vy:-15}, {x: 245, y: 60, hx:5, vy:-15},
+                    {x: 55, y: 330, hx:-15, vy:5}, {x: 245, y: 330, hx:5, vy:5}
+                ] : [
+                    {x: 125-5, y: 165-5, hx:-15, vy:-15}, {x: 125+70+5, y: 165-5, hx:5, vy:-15},
+                    {x: 125-5, y: 165+70+5, hx:-15, vy:5}, {x: 125+70+5, y: 165+70+5, hx:5, vy:5}
+                ];
+                marks.forEach(m => {
+                    marksLayer.innerHTML += `<div class="sim-mark" style="width:10px; height:1px; left:${m.x+m.hx}px; top:${m.y}px"></div>`;
+                    marksLayer.innerHTML += `<div class="sim-mark" style="width:1px; height:10px; left:${m.x}px; top:${m.y+m.vy}px"></div>`;
+                });
+                layers.marks = true;
+                updateVisuals();
+                document.getElementById('layer-card-marks').style.display = 'flex';
+                status.innerHTML = "Capa <b style='color:white'>'MARCAS'</b> creada arriba.";
+            }
+
+            if (step === 3) {
+                graphtecLayer.innerHTML = '';
+                graphtecLayer.innerHTML += '<div class="graphtec-mark" style="top:0; left:0;"></div>';
+                graphtecLayer.innerHTML += '<div class="graphtec-mark" style="top:0; right:0; transform:rotate(90deg);"></div>';
+                graphtecLayer.innerHTML += '<div class="graphtec-mark" style="bottom:0; left:0; transform:rotate(-90deg);"></div>';
+                graphtecLayer.innerHTML += '<div class="graphtec-mark" style="bottom:0; right:0; transform:rotate(180deg);"></div>';
+                layers.graphtec = true;
+                updateVisuals();
+                document.getElementById('layer-card-graphtec').style.display = 'flex';
+                status.innerHTML = "Capa <b style='color:white'>'GRAPHTEC'</b> en nivel superior.";
+            }
+        }
+        
+        function resetSim() { location.reload(); }
+        document.getElementById('sticker-master').innerHTML = createStickerContent("", 70);
+        updateVisuals();
+    </script>
+</body>
+</html>
